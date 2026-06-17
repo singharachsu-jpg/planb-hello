@@ -47,12 +47,8 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(
 .btn:disabled{opacity:.5;cursor:default}
 .bta{background:var(--ac);border-color:var(--ac);color:#fff;width:100%}
 .bta:hover{background:#3d7de8}
-/* drop + pick buttons */
-.drop{display:block;position:relative;border:1.5px dashed var(--bd2);border-radius:var(--rl);padding:18px 14px;text-align:center;transition:all .15s;background:var(--sf2)}
-.drop.over{border-color:var(--ac);background:var(--ac2)}
-.drop .ic{font-size:24px;opacity:.7}
-.drop .s{font-size:11px;color:var(--mu);margin-top:2px}
-.pickrow{display:flex;gap:10px;margin-top:12px}
+/* pick buttons (ถ่ายรูป / เลือกรูป) */
+.pickrow{display:flex;gap:10px;margin-top:0}
 .pickrow label{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;min-height:50px}
 .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .thumb{position:relative;width:64px;height:64px;border-radius:7px;background-size:cover;background-position:center;border:1px solid var(--bd2)}
@@ -140,10 +136,7 @@ body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(
 
       <div class="mt">
         <div class="al">รูปถ่ายทำเล / ไฟล์แนบ</div>
-        <div class="drop" id="drop">
-          <div class="ic">📷</div>
-          <div class="s">ถ่ายรูปสดที่ทำเล หรือเลือกจากอัลบัม · เพิ่มได้หลายรูป · ลากมาวางก็ได้</div>
-        </div>
+        <div class="hint" style="margin:0 0 8px">ถ่ายรูปสดที่ทำเล หรือเลือกจากอัลบัม · เพิ่มได้หลายรูป</div>
         <div class="pickrow">
           <label class="btn">📷 ถ่ายรูป
             <input type="file" id="ns-cam" class="vh" accept="image/*" capture="environment" onchange="addFiles(this.files);this.value='';"/>
@@ -265,11 +258,7 @@ function useGps(){
   },{enableHighAccuracy:true,timeout:10000,maximumAge:0});
 }
 
-// ===== drag-drop + เลือกไฟล์ =====
-var dz=document.getElementById('drop');
-dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('over');});
-dz.addEventListener('dragleave',function(){dz.classList.remove('over');});
-dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('over');if(e.dataTransfer&&e.dataTransfer.files)addFiles(e.dataTransfer.files);});
+// ===== เลือกไฟล์ / ถ่ายรูป =====
 function addFiles(files){
   Array.prototype.forEach.call(files,function(f){
     if(f.type&&f.type.indexOf('image')!==0)return; // เฉพาะรูป
